@@ -1,0 +1,27 @@
+# Workspace-level ignores
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Backend (Spring Boot / Maven)
+back/target/
+back/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Vite / React)
+front/product-category-frontend/node_modules/
+front/product-category-frontend/dist/
+front/product-category-frontend/dist-ssr/
+front/product-category-frontend/*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
