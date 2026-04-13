@@ -1,24 +1,24 @@
 import { type FormEvent, useEffect, useState } from "react";
-import { createCategory, deleteCategory, getCategories } from "../services/api";
-import type { Category } from "../types";
+import { createSupplier, deleteSupplier, getSuppliers } from "../services/api";
+import type { Supplier } from "../types";
 
-interface CategoryListProps {
+interface SupplierListProps {
   refreshKey: number;
   onDataChanged: () => void;
 }
 
-export default function CategoryList({ refreshKey, onDataChanged }: CategoryListProps) {
-  const [categories, setCategories] = useState<Category[]>([]);
+export default function SupplierList({ refreshKey, onDataChanged }: SupplierListProps) {
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    getCategories()
-      .then((categoryList) => setCategories(Array.isArray(categoryList) ? categoryList : []))
+    getSuppliers()
+      .then((supplierList) => setSuppliers(Array.isArray(supplierList) ? supplierList : []))
       .catch(() => {
-        setCategories([]);
-        setErrorMessage("Unable to load categories.");
+        setSuppliers([]);
+        setErrorMessage("Unable to load suppliers.");
       });
   }, [refreshKey]);
 
@@ -27,46 +27,46 @@ export default function CategoryList({ refreshKey, onDataChanged }: CategoryList
     const trimmed = name.trim();
 
     if (!trimmed) {
-      setErrorMessage("Category name is required.");
+      setErrorMessage("Supplier name is required.");
       return;
     }
 
     try {
       setIsSubmitting(true);
       setErrorMessage("");
-      await createCategory({ name: trimmed });
+      await createSupplier({ name: trimmed });
       setName("");
       onDataChanged();
     } catch {
-      setErrorMessage("Unable to create category.");
+      setErrorMessage("Unable to create supplier.");
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  async function handleDelete(categoryId: number) {
+  async function handleDelete(supplierId: number) {
     try {
       setErrorMessage("");
-      await deleteCategory(categoryId);
+      await deleteSupplier(supplierId);
       onDataChanged();
     } catch {
-      setErrorMessage("Unable to delete category.");
+      setErrorMessage("Unable to delete supplier.");
     }
   }
 
   return (
     <div>
-      <h2 className="section-title">Categories</h2>
+      <h2 className="section-title">Suppliers</h2>
 
       <form className="create-form" onSubmit={handleSubmit}>
-        <label htmlFor="category-name">New category</label>
+        <label htmlFor="supplier-name">New supplier</label>
         <div className="create-form-row">
           <input
-            id="category-name"
+            id="supplier-name"
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            placeholder="Ex: Accessories"
+            placeholder="Ex: Global Traders"
           />
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Adding..." : "Add"}
@@ -76,14 +76,14 @@ export default function CategoryList({ refreshKey, onDataChanged }: CategoryList
       </form>
 
       <div className="category-list">
-        {categories.map(c => (
-          <div key={c.id} className="category-pill">
-            <span className="category-pill-id">{c.id}</span>
-            {c.name}
+        {suppliers.map((s) => (
+          <div key={s.id} className="category-pill">
+            <span className="category-pill-id">{s.id}</span>
+            {s.name}
             <button
               type="button"
               className="inline-delete-btn"
-              onClick={() => handleDelete(c.id)}
+              onClick={() => handleDelete(s.id)}
             >
               x
             </button>

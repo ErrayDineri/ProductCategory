@@ -29,6 +29,60 @@
   opacity: 0.85;
 }
 
+.logout-btn {
+  margin-top: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.logout-btn:hover {
+  border-color: #fff;
+}
+
+.auth-layout {
+  padding-top: 1.5rem;
+}
+
+.auth-switch {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.auth-switch-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+
+.auth-switch-btn.active {
+  background: #fff;
+  color: #4f46e5;
+  border-color: #fff;
+}
+
+.auth-hint {
+  margin: 0.65rem 0 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.link-btn {
+  background: transparent;
+  border: 0;
+  color: #4f46e5;
+  padding: 0;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.link-btn:hover {
+  color: #4338ca;
+  background: transparent;
+  border: 0;
+}
+
 /* ── Section titles ─────────────────────────────────── */
 .section-title {
   font-size: 1.25rem;
@@ -77,7 +131,15 @@
 }
 
 .create-form-grid {
-  grid-template-columns: 1.2fr 0.8fr 1fr auto;
+  grid-template-columns: 1.2fr 0.8fr 1fr 1fr auto;
+}
+
+.panier-grid {
+  grid-template-columns: 1fr 1fr auto;
+}
+
+.superadmin-grid {
+  grid-template-columns: 1fr 1fr auto;
 }
 
 .create-form input,
@@ -105,9 +167,58 @@
   cursor: not-allowed;
 }
 
+.inline-delete-btn {
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.inline-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.user-line {
+  margin: 0 0 0.75rem;
+}
+
+.danger-zone {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed #fecaca;
+}
+
+.danger-btn {
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+}
+
+.danger-btn:hover {
+  background: #b91c1c !important;
+  border-color: #b91c1c !important;
+}
+
 .form-error {
   margin: 0.55rem 0 0;
   color: #dc2626;
+  font-size: 0.85rem;
+}
+
+.form-warning {
+  margin: 0.55rem 0 0;
+  color: #b45309;
+  font-size: 0.85rem;
+}
+
+.form-success {
+  margin: 0.55rem 0 0;
+  color: #15803d;
   font-size: 0.85rem;
 }
 
@@ -197,6 +308,11 @@
   margin-top: auto;
 }
 
+.product-card-supplier {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
 /* ── Category pills ─────────────────────────────────── */
 .category-list {
   display: flex;
@@ -247,6 +363,10 @@
 @media (max-width: 760px) {
   .create-form-row,
   .create-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .superadmin-grid {
     grid-template-columns: 1fr;
   }
 }
