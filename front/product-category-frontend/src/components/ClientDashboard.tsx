@@ -7,13 +7,31 @@ export default function ClientDashboard() {
   const [panier, setPanier] = useState<Panier | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  function toUserMessage(error: unknown, fallback: string): string {
+    if (!(error instanceof Error)) {
+      return fallback;
+    }
+
+    const message = error.message.toLowerCase();
+
+    if (message.includes("401") || message.includes("unauthorized")) {
+      return "Session expired or account no longer exists. Please log in again.";
+    }
+
+    if (message.includes("failed to fetch") || message.includes("network") || message.includes("connect")) {
+      return "Backend is unreachable. Make sure Spring Boot is running on port 8080.";
+    }
+
+    return error.message || fallback;
+  }
+
   useEffect(() => {
     Promise.all([getProducts(), getMyPanier()])
       .then(([productList, myPanier]) => {
         setProducts(Array.isArray(productList) ? productList : []);
         setPanier(myPanier);
       })
-      .catch(() => setErrorMessage("Unable to load shop data."));
+      .catch((error) => setErrorMessage(toUserMessage(error, "Unable to load shop data.")));
   }, []);
 
   const panierProductIds = useMemo(() => {
@@ -25,8 +43,8 @@ export default function ClientDashboard() {
       const updated = await addProductToMyPanier(productId);
       setPanier(updated);
       setErrorMessage("");
-    } catch {
-      setErrorMessage("Unable to add product to your panier.");
+    } catch (error) {
+      setErrorMessage(toUserMessage(error, "Unable to add product to your panier."));
     }
   }
 
@@ -35,8 +53,8 @@ export default function ClientDashboard() {
       const updated = await removeProductFromMyPanier(productId);
       setPanier(updated);
       setErrorMessage("");
-    } catch {
-      setErrorMessage("Unable to remove product from your panier.");
+    } catch (error) {
+      setErrorMessage(toUserMessage(error, "Unable to remove product from your panier."));
     }
   }
 
